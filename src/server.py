@@ -51,15 +51,15 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         data = '/data/'
         if status_code == 0:
             if pathname == '/':
+                version = '<meta name="version" content="' + __version__ + '">'
                 meta = []
-                meta.append("<meta name='type' content='Python' />")
-                if __version__:
-                    meta.append("<meta name='version' content='" + __version__ + "' />")
+                meta.append('<meta name="type" content="Python">')
+                meta.append(version)
                 if self.file:
-                    meta.append("<meta name='file' content='/data/" + self.file + "' />")
+                    meta.append('<meta name="file" content="/data/' + self.file + '">')
                 with codecs.open(location + 'index.html', mode="r", encoding="utf-8") as open_file:
                     buffer = open_file.read()
-                buffer = buffer.replace('<!-- meta -->', '\n'.join(meta))
+                buffer = buffer.replace(version, '\n'.join(meta))
                 buffer = buffer.encode('utf-8')
                 headers['Content-Type'] = 'text/html'
                 headers['Content-Length'] = len(buffer)
